@@ -8,11 +8,11 @@ Rappels essentiels :
 
         mpiexec -np xx ./nom_executable
 
-      où xx est le nombre de processus qui lanceront simultanément l'exécutable
+      où xx est le nombre de processus qui lanceront simultanément l'exécutable.
 
-   2. Utiliser le Makefile fourni avec le TP, cela vous évitera (principalement pour ceux utilisant MSYS 2) une fastidieuse ligne de commande
+   2. Utiliser le Makefile fourni avec le TP, cela vous évitera (principalement pour ceux utilisant MSYS 2) une fastidieuse ligne de commande.
  
-   3. Pour ceux ayant installé MSYS 2, bien penser à commenter dans le Makefile la ligne 
+   3. Pour ceux ayant installé MSYS 2, bien penser à commenter dans le Makefile la ligne
            
         include Make.inc
 
@@ -32,7 +32,7 @@ Rappels essentiels :
 
    5. Lorsque vous mettez en oeuvre un algorithme en parallèle, ayez une vision locale du problème :
 
-        - Si je suis le processus de range x, que dois-je faire ?
+        - Si je suis le processus de rang x, que dois-je faire ?
         - J'envoie des messages à qui ?
         - Je reçois des messages de qui ?
 
