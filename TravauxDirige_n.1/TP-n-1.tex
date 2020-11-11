@@ -260,8 +260,8 @@ bibliothèque. Ces outils vont automatiquement trouver les bons chemins pour les
 utilisées par la mise en {\oe}uvre de MPI employée :
 \begin{itemize}
 \item[\texttt{mpicc}] : Permet de compiler des sources C. Prend les mêmes arguments de compilation que le compilateur local (GNU C sous Linux par exemple).
-\item[\texttt{mpiCC}] : Permet de compiler des sources C++. Prend les mêmes arguments de compilation que le compiteur local (GNU C++ sous Linux par exemple).
-\item[\texttt{mpif90}] : Permet de compiler des sources Fortran 90. Prend les mêmes arguments de compilation que le compiteur local (GNU Fortran sous Linux par exemple).
+\item[\texttt{mpiCC}] : Permet de compiler des sources C++. Prend les mêmes arguments de compilation que le compilateur local (GNU C++ sous Linux par exemple).
+\item[\texttt{mpif90}] : Permet de compiler des sources Fortran 90. Prend les mêmes arguments de compilation que le compilateur local (GNU Fortran sous Linux par exemple).
 \end{itemize}
 
 Pour exécuter en parallèle sur $n$ tâches un programme MPI, on utilise l'exécutable \texttt{mpiexec} fourni en
@@ -444,7 +444,7 @@ La plupart des routines point à point de MPI peuvent être utilisées en commun
 \item[Bloquant]
   \begin{itemize}
   \item Un envoi bloquant rendra la main seulement après s'être assuré que modifier le buffer d'application est ``sûr''.
-``Sûr'' signifie ici que ces modifications n'altérera pas les données qui devront être reçues par la tâche destinataire -- elles peuvent
+``Sûr'' signifie ici que ces modifications n'altéreront pas les données qui devront être reçues par la tâche destinataire -- elles peuvent
 par contre être stockées dans un buffer système.
 \item Un envoi bloquant peut être synchrone, ce qui signifie qu'il y a un échange d'information avec la tâche destinataire pour
 confirmer que l'envoi est sûr;
@@ -753,7 +753,7 @@ MPI_Waitsome( incount, &array_of_requests, &outcount, &array_of_offsets,
 \item \textcolor{blue}{\texttt{MPI\_Iprobe}}
 
 Effectue un test non bloquant pour un message. Les ``jokers'' \texttt{MPI\_ANY\_SOURCE} et \texttt{MPI\_ANY\_TAG}
-peuvent être utilisés pour testé un message provenant de n'importe quelle autre tâche ou ayant n'importe
+peuvent être utilisés pour tester un message provenant de n'importe quelle autre tâche ou ayant n'importe
 quel identifiant. Le paramêtre entier ``\texttt{flag}'' est retourné avec une valeur logiquement vraie ( = 1 )
 si le message est arrivé et logiquement fausse sinon ( = 0 ). Le numéro de l'expéditeur et l'identifiant du
 message sont retournés via \texttt{status} comme \texttt{status.MPI\_SOURCE} et \texttt{status.MPI\_TAG}.
