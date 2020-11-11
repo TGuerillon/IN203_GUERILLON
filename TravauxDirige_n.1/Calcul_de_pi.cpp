@@ -13,7 +13,7 @@ double approximate_pi( unsigned long nbSamples )
 {
     typedef std::chrono::high_resolution_clock myclock;
     myclock::time_point beginning = myclock::now();
-    myclock::duration d = myclock::now() - beginning;
+    myclock::duration d = beginning.time_since_epoch();
     unsigned seed = d.count();
     std::default_random_engine generator(seed);
     std::uniform_real_distribution <double> distribution ( -1.0 ,1.0);
