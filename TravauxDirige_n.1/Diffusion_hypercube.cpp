@@ -35,8 +35,8 @@ int main( int nargs, char* argv[] )
 	fileName << "Output" << std::setfill('0') << std::setw(5) << rank << ".txt";
 	std::ofstream output( fileName.str().c_str() );
 
-	output << "I'm the processus " << rank << " on " << nbp << " processes." << std::endl;
-
+	// Rajout du programme ici...
+	
 	output.close();
 	// A la fin du programme, on doit synchroniser une dernière fois tous les processus
 	// afin qu'aucun processus ne se termine pendant que d'autres processus continue à
