@@ -102,7 +102,7 @@ Les sp\'ecifications de l'interface ont \'et\'e d\'efinies pour les langages C e
 La troisi\`eme version des
 sp\'ecifications de MPI propose \'egalement un support pour les langages Fortran 2003 et Fortran 2008.
 
-En fait, les diverses bilioth\`eques MPI existantes diff\`erent dans les caract\'eristiques et la version de
+En fait, les diverses biblioth\`eques MPI existantes diff\`erent dans les caract\'eristiques et la version de
 sp\'ecification qu'elles supportent. Les utilisateurs de ces biblioth\`eques doivent en avoir conscience.
 
 \subsection{Mod\`ele de programmation}
@@ -1012,7 +1012,7 @@ tâches à l'aide d'échanges de message point à point.
 \item Dans un deuxième temps, essayer à l'aide de réceptions non bloquantes de recouvrir les réceptions par du
 calcul dans le processus maître.
 \item Mesurez le temps mis par les deux versions (bloquant et non bloquant) et calculez pour chacune des deux versions
-l'accélération obtenue.
+l'accélération obtenue. Est-ce cohérent avec votre machine (cf. \verb|lscpu| ou gestionnaire de tâches) ?
 \end{itemize}
 
 \begin{center}
