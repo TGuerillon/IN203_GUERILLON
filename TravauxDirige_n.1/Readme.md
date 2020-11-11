@@ -28,7 +28,7 @@ Rappels essentiels :
 
         include Make_osx.inc
 
-   4. Utiliser les fichiers SkeletonMPIProgram.cpp ou SkeletonMPIProgramWithFilesOutput.cpp comme canevas pour commencer votre programme MPI
+   4. Utiliser les fichiers SkeletonMPIProgram.cpp ou SkeletonMPIProgramWithFilesOutput.cpp comme canevas pour commencer votre programme MPI (conserver ces squelettes pour les prochaines sessions, ils seront utiles).
 
    5. Lorsque vous mettez en oeuvre un algorithme en parallèle, ayez une vision locale du problème :
 
