@@ -1,8 +1,8 @@
-# include <iostream>
-# include <cstdlib>
-# include <mpi.h>
+#include <iostream>
+#include <cstdlib>
+#include <mpi.h>
 
-int main( int nargs, char* argv[] )
+int main(int nargs, char *argv[])
 {
 	// On initialise le contexte MPI qui va s'occuper :
 	//    1. Créer un communicateur global, COMM_WORLD qui permet de gérer
@@ -11,7 +11,7 @@ int main( int nargs, char* argv[] )
 	//       le communicateur COMM_WORLD
 	//    3. etc...
 
-	MPI_Init( &nargs, &argv );
+	MPI_Init(&nargs, &argv);
 	// Pour des raison préfère toujours cloner le communicateur global
 	// MPI_COMM_WORLD qui gère l'ensemble des processus lancés par MPI.
 	MPI_Comm globComm;
@@ -29,7 +29,29 @@ int main( int nargs, char* argv[] )
 
 	// On peut maintenant commencer à écrire notre programme parallèle en utilisant les
 	// services offerts par MPI.
-	std::cout << "Hello World, I'm processus " << rank << " on " << nbp << " processes.\n";
+	//std::cout << "Hello World, I'm processus " << rank << " on " << nbp << " processes.\n";
+	MPI_Status status;
+	if (rank == 0)
+	{
+		int token = 2022;
+		MPI_Send(&token, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+	}
+	else if (rank == nbp - 1)
+	{
+		int buffer;
+		MPI_Recv(&buffer, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+		buffer++;
+		std::cout << buffer << "\n";
+		MPI_Send(&buffer, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+	}
+	else
+	{
+		int buffer;
+		MPI_Recv(&buffer, 1, MPI_INT, rank - 1, 0, MPI_COMM_WORLD, &status);
+		buffer++;
+		std::cout << buffer << "\n";
+		MPI_Send(&buffer, 1, MPI_INT, rank + 1, 0, MPI_COMM_WORLD);
+	}
 
 	// A la fin du programme, on doit synchroniser une dernière fois tous les processus
 	// afin qu'aucun processus ne se termine pendant que d'autres processus continue à

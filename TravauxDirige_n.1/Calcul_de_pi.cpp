@@ -1,36 +1,38 @@
-# include <chrono>
-# include <random>
-# include <cstdlib>
-# include <sstream>
-# include <string>
-# include <fstream>
-# include <iostream>
-# include <iomanip>
-# include <mpi.h>
+#include <chrono>
+#include <random>
+#include <cstdlib>
+#include <sstream>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <mpi.h>
 
 // Attention , ne marche qu'en C++ 11 ou supérieur :
-double approximate_pi( unsigned long nbSamples ) 
+double approximate_pi(unsigned long nbSamples)
 {
-    typedef std::chrono::high_resolution_clock myclock;
-    myclock::time_point beginning = myclock::now();
-    myclock::duration d = beginning.time_since_epoch();
-    unsigned seed = d.count();
-    std::default_random_engine generator(seed);
-    std::uniform_real_distribution <double> distribution ( -1.0 ,1.0);
-    unsigned long nbDarts = 0;
-    // Throw nbSamples darts in the unit square [-1 :1] x [-1 :1]
-    for ( unsigned sample = 0 ; sample < nbSamples ; ++ sample ) {
-        double x = distribution(generator);
-        double y = distribution(generator);
-        // Test if the dart is in the unit disk
-        if ( x*x+y*y<=1 ) nbDarts ++;
-    }
-    // Number of nbDarts throwed in the unit disk
-    double ratio = double(nbDarts)/double(nbSamples);
-    return 4*ratio;
+	typedef std::chrono::high_resolution_clock myclock;
+	myclock::time_point beginning = myclock::now();
+	myclock::duration d = beginning.time_since_epoch();
+	unsigned seed = d.count();
+	std::default_random_engine generator(seed);
+	std::uniform_real_distribution<double> distribution(-1.0, 1.0);
+	unsigned long nbDarts = 0;
+	// Throw nbSamples darts in the unit square [-1 :1] x [-1 :1]
+	for (unsigned sample = 0; sample < nbSamples; ++sample)
+	{
+		double x = distribution(generator);
+		double y = distribution(generator);
+		// Test if the dart is in the unit disk
+		if (x * x + y * y <= 1)
+			nbDarts++;
+	}
+	// Number of nbDarts throwed in the unit disk
+	double ratio = double(nbDarts) / double(nbSamples);
+	return 4 * ratio;
 }
 
-int main( int nargs, char* argv[] )
+int main(int nargs, char *argv[])
 {
 	// On initialise le contexte MPI qui va s'occuper :
 	//    1. Créer un communicateur global, COMM_WORLD qui permet de gérer
@@ -38,7 +40,7 @@ int main( int nargs, char* argv[] )
 	//    2. d'attribuer à chaque processus un identifiant ( entier ) unique pour
 	//       le communicateur COMM_WORLD
 	//    3. etc...
-	MPI_Init( &nargs, &argv );
+	MPI_Init(&nargs, &argv);
 	// Pour des raisons de portabilité qui débordent largement du cadre
 	// de ce cours, on préfère toujours cloner le communicateur global
 	// MPI_COMM_WORLD qui gère l'ensemble des processus lancés par MPI.
@@ -53,14 +55,34 @@ int main( int nargs, char* argv[] )
 	// entre 0 et nbp-1 ( nbp étant le nombre de processus qui ont été lancés par
 	// l'utilisateur )
 	int rank;
+	MPI_Status status;
 	MPI_Comm_rank(globComm, &rank);
 	// Création d'un fichier pour ma propre sortie en écriture :
 	std::stringstream fileName;
 	fileName << "Output" << std::setfill('0') << std::setw(5) << rank << ".txt";
-	std::ofstream output( fileName.str().c_str() );
+	std::ofstream output(fileName.str().c_str());
 
 	// Rajout de code....
-
+	if (rank == 0)
+	{
+		double sum = 0;
+		double buffer;
+		for (int k = 1; k < nbp; k++)
+		{
+			MPI_Recv(&buffer, 1, MPI_DOUBLE, k, 0, MPI_COMM_WORLD, &status);
+			sum = buffer + sum;
+			output << "Received " << buffer << " from process " << k;
+			output << "  || Now at " << sum << std::endl;
+		}
+		double pi = sum / (nbp - 1);
+		output << "Final estimate is " << pi << std::endl;
+	}
+	else
+	{
+		double pi = approximate_pi(10000000);
+		MPI_Send(&pi, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+		output << "approximate_pi returned " << pi << " on process " << rank << std::endl;
+	}
 	output.close();
 	// A la fin du programme, on doit synchroniser une dernière fois tous les processus
 	// afin qu'aucun processus ne se termine pendant que d'autres processus continue à
