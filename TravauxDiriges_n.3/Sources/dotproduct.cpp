@@ -50,7 +50,7 @@ int main(int nargs, char *vargs[])
 
 #pragma omp parallel shared(U, V, result) firstprivate(nbSamples)
   {
-    std::cout << std::boolalpha << (omp_in_parallel() != 0);
+#pragma omp for nowait
     for (int iSample = 0; iSample < nbSamples; ++iSample)
       result[iSample] = dot(U[iSample], V[iSample]);
   }
