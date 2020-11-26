@@ -58,7 +58,7 @@
 \item Calculer l'accélération du produit scalaire en faisant varier le nombre de threads à l'aide de la variable d'environnement \texttt{OMP\_NUM\_THREADS}. Expliquez clairement le résultat que vous obtenez pour l'accélération. 
 \item Compilez la deuxième version du produit scalaire  parallélisée à l'aide des threads C++ 2011 (\texttt{dotproduct\_thread.cpp}) et calculer l'accélération en faisant varier dans le code le nombre de threads employés.
 \item Comparer les temps de calcul pour les deux approches;
-\item Expliquez pouquoi il n'est pas possible d'améliorer le résultat que vous avez obtenu.
+\item Expliquez pourquoi il n'est pas possible d'améliorer le résultat que vous avez obtenu.
 \end{itemize}
 
 \section{Produit matrice--matrice}
@@ -87,7 +87,7 @@ Soit
 \[
 C_{ij} = \left(v_{A}|u_{B}\right)u_{A_{i}}.v_{B_{j}}
 \]
-ce qui nécéssite en tout $2.n+2.n^{2}$ opérations arithmétiques ( dont $2.n$ opérations pour le produit scalaire ).
+ce qui nécessite en tout $2.n+2.n^{2}$ opérations arithmétiques ( dont $2.n$ opérations pour le produit scalaire ).
 
 On se propose par étape de paralléliser le produit matrice--matrice fourni dans le fichier \texttt{ProdMatMat.cpp}. L'exécutable pour tester le produit matrice-matrice est \texttt{TestProduitMatrix.exe} :
 
@@ -150,7 +150,7 @@ parallèle. Il se base sur une suite dite \textsl{bitonique}.
 
 \begin{definition}
 Une suite $a_{0},a_{1},\ldots,a_{n-1}$
-est dite \textbf{bitonique} si il existe un élement $a_{i},0<i<n-1$ tel qu'une
+est dite \textbf{bitonique} si il existe un élément $a_{i},0<i<n-1$ tel qu'une
 des conditions suivantes est satisfaite :
 \begin{itemize}
 \item $a_{0}\leq a_{1}\leq \ldots \leq a_{i} \geq a_{i+1} \geq \ldots \geq a_{n-1}$ ou
@@ -285,7 +285,7 @@ le tri  sur les vecteurs ?
 
 \section{Ensemble de Bhudda}
 
-L'ensemble de bhudda est un ensemble dérivé de l'ensemble de Mandelbrot. Au lieu de dessiner des pixels en fonction du nombre d'itérations nécessaires à la détection éventuelle de divergence de la suite, on augmente l'intensité de chaque pixel par lesquels une suite divergente est passée ( on ne fait rien pour les suites convergentes ).
+L'ensemble de Bhudda est un ensemble dérivé de l'ensemble de Mandelbrot. Au lieu de dessiner des pixels en fonction du nombre d'itérations nécessaires à la détection éventuelle de divergence de la suite, on augmente l'intensité de chaque pixel par lesquels une suite divergente est passée ( on ne fait rien pour les suites convergentes ).
 
 \`A l'aide d'OpenMP, paralléliser le code Bhudda donné dans le fichier \texttt{bhudda.cpp} et mesurer
 l'accélération obtenue en fonction du nombre de threads pris pour l'exécution.
