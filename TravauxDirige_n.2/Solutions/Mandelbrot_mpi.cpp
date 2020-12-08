@@ -105,21 +105,21 @@ computeMandelbrotSet( int W, int H, int maxIter )
 
 
     std::chrono::time_point<std::chrono::system_clock> start, end;
-    std::vector<int> pixels(W*Hloc);
+    std::vector<int> pixels_loc(W*Hloc);
     start = std::chrono::system_clock::now();
     
     
     // On parcourt les pixels de l'espace image :
     for ( int iglob = firstrow; iglob < endrow; ++iglob ) {
       int iloc = iglob - firstrow;
-      computeMandelbrotSetRow(W, H, maxIter, iglob, pixels.data() + W*(Hloc-iloc-1) );
+      computeMandelbrotSetRow(W, H, maxIter, iglob, pixels_loc.data() + W*(Hloc-iloc-1) );
     }
     end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "["<<rank<<"] "
               <<"Temps calcul ensemble mandelbrot : " << elapsed_seconds.count()
               << std::endl;
-    return pixels;
+    return pixels_loc;
 }
 
 /** Construit et sauvegarde l'image finale **/
@@ -161,7 +161,7 @@ int main(int argc, char *argv[] )
     int Hloc = H / size;
 
     if (rank == 0) {
-      std::vector<int> pixels_glob(W*H);   // FIXME: ne l'allouer que sur proc 0
+      std::vector<int> pixels_glob(W*H);   // uniquement alloue sur proc 0 pour economiser de la memoire
       MPI_Gather( pixels_loc.data(), W*Hloc, MPI_INT,
                 pixels_glob.data(), W*Hloc, MPI_INT,
                 0, // root
