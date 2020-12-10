@@ -38,7 +38,8 @@ par OS.
 
 ### Sous Mac OS-X
 
-Voir la page suivante : https://formulae.brew.sh/formula/sdl2
+    brew install sdl2
+    brew install sdl2_image
 
 ## Description de la simulation de colonisation de la galaxie
 
