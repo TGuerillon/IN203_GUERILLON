@@ -1,44 +1,40 @@
-CXX = g++
-LIBS = -lm -lpthread
-CXXFLAGS = -std=c++11 -fPIC  -fopenmp
+include Make_linux.inc
+#include Make_msys2.inc
+#include Make_osx.inc
+
+CXXFLAGS = -std=c++14
 ifdef DEBUG
-CXXFLAGS += -g -O0 -Wall -fbounds-check -pedantic -Weffc++
+CXXFLAGS += -g -O0 -Wall -fbounds-check -pedantic -D_GLIBCXX_DEBUG
+CXXFLAGS2 = CXXFLAGS
 else
-CXXFLAGS += -O3 -march=native
+CXXFLAGS2 = ${CXXFLAGS} -O2 -march=native -Wall
+CXXFLAGS += -O3 -march=native -Wall
 endif
 
-ALL=TestProduct.exe TestProduct_opt.exe TestProduct_blockomp.exe dotproduct.exe dotproduct_thread.exe dotproduct_openmp.exe bitonic.exe bitonic_thread.exe bhudda.exe bhudda_omp.exe
+ALL= dotproduct.exe dotproduct_thread.exe TestProductMatrix.exe bhudda.exe bitonic.exe
 
-default: help
+default:	help
 
 all: $(ALL)
 
 clean:
-	@rm -fr *.o *.exe *~
+	@rm -fr *.o *.exe *~ *.tga
 
 %.exe: %.cpp
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
 
-TestProduct.exe: Matrix.cpp ProdMatMat.cpp
-TestProduct_opt.exe: Matrix.cpp ProdMatMat_opt.cpp
-TestProduct_blockomp.exe: Matrix.cpp ProdMatMat_blockomp.cpp
-bitonic.exe: Vecteur.cpp
-bitonic_thread.exe: Vecteur.cpp
+TestProductMatrix.exe : TestProductMatrix.cpp Matrix.hpp Matrix.cpp ProdMatMat.cpp
+	$(CXX) $(CXXFLAGS2) $^ -o $@ $(LIB)	
 
+bitonic.exe : bitonic.cpp Vecteur.hpp Vecteur.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)	
 
 help:
 	@echo "Available targets : "
-	@echo "    all             : compile all executables"
-	@echo "    dotproduct.exe  : Compile dot product executable"
-	@echo "    TestProduct.exe : Compile matrix-matrix product executable"
-	@echo "    bitonic.exe     : Compile bitonic sort example executable"
-	@echo "    bhudda.exe      : Compile bhuddabrot set executable"
+	@echo "    all            : compile all executables"
+	@echo "    matvec.exe     : compile matrix vector product executable"
+	@echo "    Mandelbrot.exe : compile Mandelbrot set computation executable"
 	@echo "Add DEBUG=yes to compile in debug"
 	@echo "Configuration :"
 	@echo "    CXX      :    $(CXX)"
 	@echo "    CXXFLAGS :    $(CXXFLAGS)"
-
-
-# Rapport
-%.html: %.md
-	pandoc -s --toc $< --css=./github-pandoc.css -o $@
