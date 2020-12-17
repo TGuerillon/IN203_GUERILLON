@@ -82,13 +82,26 @@ pas des pixels se trouvant en diagonale.
 
 Lors de la parallélisation du code, il ne faudra pas hésiter à modifier les classes et leurs méthodes.
 
-Le code devra être parallélisé sur deux niveaux :
+Le code devra être parallélisé sur deux niveaux (mémoire partagée et mémoire distribuée), ainsi que sur plusieurs stratégies :
 
-## Parallélisation en mémoire partagée
+## Parallélisation de boucle en mémoire partagée
 
-On parallélisera le code dans un premier temps en mémoire partagée. On s'assurera que si il y a condition
+On parallélisera le code dans un premier temps en mémoire partagée, en mettant en œuvre un parallélisme de la boucle de calcul. 
+On s'assurera que si il y a condition
 de data race, bien expliquer quelles sont ces data races dans le rapport du projet, et bien s'assurer que
 le cas échéant, elles ne porteront pas préjudice au déroulement du code et aux résultats.
+
+
+## Recouvrement calcul / affichage en mémoire partagée
+Les *Timers* montrent que la boucle de calcul et la boucle d'affichage prennent un temps similaire (l'équilibre dépend toutefois grandement de la machine). 
+On mettra donc en place la stratégie suivante : 
+- le premier *thread* affiche la galaxie initiale
+- pendant ce temps d'affichage, un deuxième *thread* (ou tous les autres *threads* si vous cumulez avec la question précédente) calcule le pas de temps suivant
+- lorsque les deux threads ont terminé, le premier *thread* affiche le nouvel état pendant que les autres *threads* continuent le calcul.
+
+**Note** : cette technique est un grand classique de programmation, qui s'appelle le *recouvrement des entrées/sorties par du calcul* ; 
+elle est souvent employée autour des sauvegardes sur disque dur qui est un goulot d'étranglement du code difficilement accélérable autrement.
+
 
 ## Parallélisation en mémoire distribuée
 
@@ -100,7 +113,11 @@ Dans un premier temps, on se contentera de partager d'un côté le calcul des pl
   - Le processus de rang zéro se contentera uniquement d'afficher graphiquement le résultat à chaque pas de temps,
   - Le processus de rang un calculera le pas de temps suivant en utilisant l'algorithme de percolation.
 
-Pour paralléliser en mémoire distribuée sur nbp processus, on utilisera toujours le processus zéro comme celui qui affichera le résultat à l'écran et pour les autres processus, on découpera la grille de pixel en plusieurs morceaux, soit par tranche dans une direction (horizontale par exemple) soit en découpant dans la direction horizontale mais aussi dans la direction verticale.
+Autrement dit on réalisera la version MPI de la technique de recouvrement calcul / affichage de la question précédente.
+
+
+Ensuite, 
+pour paralléliser en mémoire distribuée sur **nbp** processus, on utilisera toujours le processus zéro comme celui qui affichera le résultat à l'écran et pour les autres processus, on découpera la grille de pixel en plusieurs morceaux, soit par tranche dans une direction (horizontale par exemple) soit en découpant dans la direction horizontale mais aussi dans la direction verticale.
 
 On obtiendra alors des sous-grilles auxquelles on rajoutera sur chaque bord des cellules fantômes, c'est à dire
 des cellules dont les valeurs qu'on remplira avec la percolation seront ensuite transmises aux cellules de la sous-grille
@@ -126,15 +143,18 @@ hauteur (si on découpe dans les deux directions).
 
 Ne pas oublier de regrouper les données des cellules fantômes qu'on enverra.
 
-Remarque
---------
-*Faire attention cependant, car une planète qui devient à la fois habitée et habitable (non habitée)
+Remarques
+---------
+- *Faire attention cependant, car une planète qui devient à la fois habitée et habitable (non habitée)
 sera toujours habitée. Par contre, une planète qui devient à la fois habitée et inhabitable sera
 toujours inhabitable.*
 
+- Cette technique de découpage du domaine de calcul par processeur est un grand classique du calcul haute performance, nommée *décomposition de domaines*. La stratégie des cellules fantômes est une des solutions possibles pour gérer le raccordement entre les domaines tout en minimisant le nombre d'échanges MPI.
+
+
 # Travail à rendre
 
-  - Le code parallélisé en mémoire partagée ET en mémoire distribué (le même code).
+  - Le code parallélisé en mémoire partagée ET en mémoire distribuée (le même code).
   - Un rapport où on parlera des éventuels conflits mémoires et pourquoi ils ne posent pas de problème,
     ainsi que le calcul des accélérations (speedup) obtenus en mémoire partagée uniquement, en mémoire
     distribuée uniquement et en mélangeant les deux parallélisations.
