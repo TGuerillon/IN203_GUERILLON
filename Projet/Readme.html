@@ -5,26 +5,35 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Readme</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="./github-pandoc.css" />
+  <link rel="stylesheet" href="github-pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
-<nav id="TOC">
+<nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#simulation-dune-colonisation-dune-galaxie">Simulation d’une colonisation d’une galaxie</a><ul>
-<li><a href="#installation-des-packages-nécessaires">Installation des packages nécessaires</a><ul>
+<li><a href="#simulation-dune-colonisation-dune-galaxie">Simulation d’une colonisation d’une galaxie</a>
+<ul>
+<li><a href="#installation-des-packages-nécessaires">Installation des packages nécessaires</a>
+<ul>
 <li><a href="#sous-ubuntu">Sous Ubuntu</a></li>
 <li><a href="#sous-msys-2">Sous MSys 2</a></li>
 <li><a href="#sous-mac-os-x">Sous Mac OS-X</a></li>
 </ul></li>
 <li><a href="#description-de-la-simulation-de-colonisation-de-la-galaxie">Description de la simulation de colonisation de la galaxie</a></li>
 </ul></li>
-<li><a href="#parallélisation-du-code">Parallélisation du code</a><ul>
+<li><a href="#parallélisation-du-code">Parallélisation du code</a>
+<ul>
 <li><a href="#parallélisation-en-mémoire-partagée">Parallélisation en mémoire partagée</a></li>
 <li><a href="#parallélisation-en-mémoire-distribuée">Parallélisation en mémoire distribuée</a></li>
 <li><a href="#remarque">Remarque</a></li>
@@ -50,7 +59,8 @@ sudo apt install libsdl2-image-dev</code></pre>
 <pre><code>pacman -S mingw64/mingw-w64-x86_64-SDL2
 pacman -S mingw64/mingw-w64-x86_64-SDL2_image</code></pre>
 <h3 id="sous-mac-os-x">Sous Mac OS-X</h3>
-<p>Voir la page suivante : https://formulae.brew.sh/formula/sdl2</p>
+<pre><code>brew install sdl2
+brew install sdl2_image</code></pre>
 <h2 id="description-de-la-simulation-de-colonisation-de-la-galaxie">Description de la simulation de colonisation de la galaxie</h2>
 <p>En entrée, le programme lit un fichier contenant des paramètres, à savoir :</p>
 <ul>
