@@ -1,0 +1,14 @@
+1. Mémoire partagée
+On utilise pragma afin de paralléliser le code.
+On obtient les temps suivants:
+C = 8.072
+A=2.28015
+Contre:
+C = 33.364
+A = 1.532
+Pour le calcul non parallélisé.
+On a donc un gain de temps total mais une augmentation du temps de l'affichage.
+
+2. Mémoire distribuée
+Les différents essais que j'ai fait pour mettre en place une parralélisation avec
+mémoire distribuée avec MPI n'ont pas abouti.

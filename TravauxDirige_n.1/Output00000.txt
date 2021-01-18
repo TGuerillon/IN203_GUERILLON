@@ -1,0 +1,12 @@
+Received 3.14221 from process 1  || Now at 3.14221
+Received 3.14208 from process 2  || Now at 6.28429
+Received 3.14175 from process 3  || Now at 9.42604
+Received 3.14135 from process 4  || Now at 12.5674
+Received 3.14084 from process 5  || Now at 15.7082
+Received 3.14091 from process 6  || Now at 18.8491
+Received 3.14219 from process 7  || Now at 21.9913
+Received 3.14233 from process 8  || Now at 25.1337
+Received 3.14168 from process 9  || Now at 28.2753
+Received 3.14065 from process 10  || Now at 31.416
+Received 3.14173 from process 11  || Now at 34.5577
+Final estimate is 3.14161
